@@ -8,3 +8,9 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Application architecture
+- Use TanStack content routes and shared brand components; dashboard modules stay in components so routing remains simple.
+- Use Cloud tables with owner-role RLS for business records; only the verified designated owner receives a role through an auth lifecycle trigger.
+- Public booking requests use a narrow database function and unique active-slot index; never expose customer rows anonymously.
+- Productivity tools use explicit template-based fallback until AI is connected; generated drafts must be reviewed and never automatically sent.
