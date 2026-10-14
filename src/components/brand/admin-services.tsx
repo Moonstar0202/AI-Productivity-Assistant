@@ -1,2 +1,97 @@
-import { useState } from 'react';import { useQuery,useQueryClient } from '@tanstack/react-query';import { servicesQuery } from './services';import { supabase } from '@/integrations/supabase/client';import { Button } from '@/components/ui/button';import { Dialog,DialogContent,DialogHeader,DialogTitle } from '@/components/ui/dialog';import { images } from '@/lib/business';import { Pencil } from 'lucide-react';import { toast } from 'sonner';
-export function AdminServices(){const {data:services=[]}=useQuery(servicesQuery);const qc=useQueryClient();const [id,setId]=useState('');const [name,setName]=useState('');const [price,setPrice]=useState('');return <><h2 className="script text-4xl">Services & Prices</h2><div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">{services.map(s=><div className="service-card" key={s.id}><img src={images[s.image_index]} alt={s.name} width={400} height={700} className="service-image"/><div className="p-5"><h3 className="text-sm font-medium">{s.name}</h3><div className="flex justify-between items-center"><strong>R{s.price}</strong><Button variant="outline" onClick={()=>{setId(s.id);setName(s.name);setPrice(String(s.price))}}><Pencil/>Edit</Button></div></div></div>)}</div><Dialog open={!!id} onOpenChange={()=>setId('')}><DialogContent><DialogHeader><DialogTitle>Update Service</DialogTitle></DialogHeader><form className="space-y-5" onSubmit={async e=>{e.preventDefault();if(!name.trim()||!Number.isInteger(Number(price))||Number(price)<0)return;const {error}=await supabase.from('services').update({name:name.trim(),price:Number(price)}).eq('id',id);if(error)toast.error(error.message);else{qc.invalidateQueries({queryKey:['services']});setId('');toast.success('Service updated')}}><label className="field">Service name<input required maxLength={150} value={name} onChange={e=>setName(e.target.value)}/></label><label className="field">Price (ZAR)<input required type="number" min={0} step={1} value={price} onChange={e=>setPrice(e.target.value)}/></label><Button>Save Service</Button></form></DialogContent></Dialog></>}
+import { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { servicesQuery } from "./services";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { images } from "@/lib/business";
+import { Pencil } from "lucide-react";
+import { toast } from "sonner";
+export function AdminServices() {
+  const { data: services = [] } = useQuery(servicesQuery);
+  const qc = useQueryClient();
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  return (
+    <>
+      <h2 className="script text-4xl">Services & Prices</h2>
+      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-5">
+        {services.map((s) => (
+          <div className="service-card" key={s.id}>
+            <img
+              src={images[s.image_index]}
+              alt={s.name}
+              width={400}
+              height={700}
+              className="service-image"
+            />
+            <div className="p-5">
+              <h3 className="text-sm font-medium">{s.name}</h3>
+              <div className="flex justify-between items-center">
+                <strong>R{s.price}</strong>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setId(s.id);
+                    setName(s.name);
+                    setPrice(String(s.price));
+                  }}
+                >
+                  <Pencil />
+                  Edit
+                </Button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Dialog open={!!id} onOpenChange={() => setId("")}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Update Service</DialogTitle>
+          </DialogHeader>
+          <form
+            className="space-y-5"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              if (!name.trim() || !Number.isInteger(Number(price)) || Number(price) < 0) return;
+              const { error } = await supabase
+                .from("services")
+                .update({ name: name.trim(), price: Number(price) })
+                .eq("id", id);
+              if (error) toast.error(error.message);
+              else {
+                qc.invalidateQueries({ queryKey: ["services"] });
+                setId("");
+                toast.success("Service updated");
+              }
+            }}
+          >
+            <label className="field">
+              Service name
+              <input
+                required
+                maxLength={150}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+            </label>
+            <label className="field">
+              Price (ZAR)
+              <input
+                required
+                type="number"
+                min={0}
+                step={1}
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </label>
+            <Button>Save Service</Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}
