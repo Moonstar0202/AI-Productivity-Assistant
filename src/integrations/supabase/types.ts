@@ -14,13 +14,154 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      appointments: {
+        Row: {
+          appointment_date: string
+          appointment_time: string
+          created_at: string
+          customer_name: string
+          hair_length: string
+          house_call: boolean
+          id: string
+          notes: string
+          phone: string
+          requirements: string
+          service_id: string
+          status: string
+        }
+        Insert: {
+          appointment_date: string
+          appointment_time: string
+          created_at?: string
+          customer_name: string
+          hair_length?: string
+          house_call?: boolean
+          id?: string
+          notes?: string
+          phone: string
+          requirements?: string
+          service_id: string
+          status?: string
+        }
+        Update: {
+          appointment_date?: string
+          appointment_time?: string
+          created_at?: string
+          customer_name?: string
+          hair_length?: string
+          house_call?: boolean
+          id?: string
+          notes?: string
+          phone?: string
+          requirements?: string
+          service_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      services: {
+        Row: {
+          active: boolean
+          id: string
+          image_index: number
+          name: string
+          price: number
+        }
+        Insert: {
+          active?: boolean
+          id?: string
+          image_index?: number
+          name: string
+          price: number
+        }
+        Update: {
+          active?: boolean
+          id?: string
+          image_index?: number
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          category: string
+          created_at: string
+          description: string
+          due_date: string | null
+          id: string
+          priority: string
+          sample: boolean
+          status: string
+          title: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string
+          due_date?: string | null
+          id?: string
+          priority?: string
+          sample?: boolean
+          status?: string
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string
+          due_date?: string | null
+          id?: string
+          priority?: string
+          sample?: boolean
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          role: string
+          user_id: string
+        }
+        Insert: {
+          role?: string
+          user_id: string
+        }
+        Update: {
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_owner: { Args: never; Returns: boolean }
+      request_booking: {
+        Args: {
+          p_date: string
+          p_house: boolean
+          p_length: string
+          p_name: string
+          p_notes: string
+          p_phone: string
+          p_requirements: string
+          p_service: string
+          p_time: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
