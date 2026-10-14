@@ -1,0 +1,55 @@
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { images } from "@/lib/business";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
+export const servicesQuery = {
+  queryKey: ["services"],
+  queryFn: async () => {
+    const { data, error } = await supabase
+      .from("services")
+      .select("*")
+      .eq("active", true)
+      .order("price");
+    if (error) throw error;
+    return data;
+  },
+};
+export function ServiceCards({ featured = false }: { featured?: boolean }) {
+  const { data, error, isPending } = useQuery(servicesQuery);
+  if (isPending) return <p className="text-muted-foreground py-8">Loading styles…</p>;
+  if (error)
+    return <p role="alert">Styles could not load. Please refresh or contact us on WhatsApp.</p>;
+  const rows = featured ? [0, 2, 3, 6].map((i) => data?.[i]).filter(Boolean) : data;
+  return (
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {rows?.map(
+        (s) =>
+          s && (
+            <article className="service-card" key={s.id}>
+              <img
+                className="service-image"
+                src={images[s.image_index]}
+                alt={s.name}
+                loading="lazy"
+                width={400}
+                height={700}
+              />
+              <div className="p-5">
+                <div className="flex justify-between gap-3 mb-3">
+                  <h3 className="text-sm font-semibold leading-relaxed mb-0">{s.name}</h3>
+                  <strong className="text-primary whitespace-nowrap">R{s.price}</strong>
+                </div>
+                <Button asChild variant="link" className="px-0 text-xs">
+                  <Link to="/book" search={{ style: s.id }}>
+                    Book This Style <ArrowUpRight />
+                  </Link>
+                </Button>
+              </div>
+            </article>
+          ),
+      )}
+    </div>
+  );
+}
