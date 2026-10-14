@@ -1,2 +1,34 @@
-import { createFileRoute } from '@tanstack/react-router';import { PublicHeader,Footer } from '@/components/brand/public-shell';import { BookingForm } from '@/components/brand/booking-form';import { meta } from '@/lib/business';
-export const Route=createFileRoute('/book')({validateSearch:(s:Record<string,unknown>)=>({style:typeof s['style']==='string'?s['style']:''}),head:()=>meta('Book an Appointment','Request your favourite braiding style and preferred date at Braiding By Me.'),component:Book});function Book(){const {style}=Route.useSearch();return <><PublicHeader/><main className="wrap section"><div className="max-w-xl mx-auto"><div className="eyebrow text-rose mb-3">Your next good hair day</div><h1 className="script section-title">Book an Appointment</h1><p className="text-sm text-muted-foreground mb-8">Choose your look and request a time. Appointments are confirmed personally after review.</p><BookingForm style={style}/></div></main><Footer/></>}
+import { createFileRoute } from "@tanstack/react-router";
+import { PublicHeader, Footer } from "@/components/brand/public-shell";
+import { BookingForm } from "@/components/brand/booking-form";
+import { meta } from "@/lib/business";
+export const Route = createFileRoute("/book")({
+  validateSearch: (s: Record<string, unknown>) => ({
+    style: typeof s["style"] === "string" ? s["style"] : "",
+  }),
+  head: () =>
+    meta(
+      "Book an Appointment",
+      "Request your favourite braiding style and preferred date at Braiding By Me.",
+    ),
+  component: Book,
+});
+function Book() {
+  const { style } = Route.useSearch();
+  return (
+    <>
+      <PublicHeader />
+      <main className="wrap section">
+        <div className="max-w-xl mx-auto">
+          <div className="eyebrow text-rose mb-3">Your next good hair day</div>
+          <h1 className="script section-title">Book an Appointment</h1>
+          <p className="text-sm text-muted-foreground mb-8">
+            Choose your look and request a time. Appointments are confirmed personally after review.
+          </p>
+          <BookingForm style={style} />
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
+}

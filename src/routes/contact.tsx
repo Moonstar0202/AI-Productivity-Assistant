@@ -1,2 +1,64 @@
-import { createFileRoute } from '@tanstack/react-router';import { PublicHeader,Footer } from '@/components/brand/public-shell';import { meta,whatsapp } from '@/lib/business';import { Button } from '@/components/ui/button';import { MapPin,MessageCircle,Phone,Home } from 'lucide-react';
-export const Route=createFileRoute('/contact')({head:()=>meta('Contact & Location','Contact Braiding By Me on 0747602949 at CPUT Bellville Campus, Cape Town.'),component:()=> <><PublicHeader/><main className="wrap section min-h-[65vh]"><div className="eyebrow text-rose">We'd love to hear from you</div><h1 className="script section-title mt-4">Let's talk hair ♡</h1><div className="grid md:grid-cols-2 gap-10 mt-10"><div className="space-y-6"><p className="flex gap-3"><MapPin/>CPUT Bellville Campus, Cape Town</p><a className="flex gap-3" href="tel:+27747602949"><Phone/>074 760 2949</a><p className="flex gap-3"><Home/>House calls are available at an additional charge.</p><Button asChild><a target="_blank" rel="noreferrer" href={whatsapp('Hi! I have a question about your braiding services.')}><MessageCircle/>Chat on WhatsApp</a></Button></div><div className="bg-secondary p-8 rounded-lg"><h2 className="script text-4xl">Your hair, my passion.</h2><p className="leading-7">Tell us the style you have in mind and your preferred date. We'll discuss availability and any extra length or house-call charges with you.</p><Button asChild variant="outline"><a target="_blank" rel="noreferrer" href="https://www.google.com/maps/search/?api=1&query=CPUT+Bellville+Campus+Cape+Town">Open location in Maps <MapPin/></a></Button></div></div></main><Footer/></>});
+import { createFileRoute } from "@tanstack/react-router";
+import { PublicHeader, Footer } from "@/components/brand/public-shell";
+import { meta, whatsapp } from "@/lib/business";
+import { Button } from "@/components/ui/button";
+import { MapPin, MessageCircle, Phone, Home } from "lucide-react";
+export const Route = createFileRoute("/contact")({
+  head: () =>
+    meta(
+      "Contact & Location",
+      "Contact Braiding By Me on 0747602949 at CPUT Bellville Campus, Cape Town.",
+    ),
+  component: () => (
+    <>
+      <PublicHeader />
+      <main className="wrap section min-h-[65vh]">
+        <div className="eyebrow text-rose">We'd love to hear from you</div>
+        <h1 className="script section-title mt-4">Let's talk hair ♡</h1>
+        <div className="grid md:grid-cols-2 gap-10 mt-10">
+          <div className="space-y-6">
+            <p className="flex gap-3">
+              <MapPin />
+              CPUT Bellville Campus, Cape Town
+            </p>
+            <a className="flex gap-3" href="tel:+27747602949">
+              <Phone />
+              074 760 2949
+            </a>
+            <p className="flex gap-3">
+              <Home />
+              House calls are available at an additional charge.
+            </p>
+            <Button asChild>
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href={whatsapp("Hi! I have a question about your braiding services.")}
+              >
+                <MessageCircle />
+                Chat on WhatsApp
+              </a>
+            </Button>
+          </div>
+          <div className="bg-secondary p-8 rounded-lg">
+            <h2 className="script text-4xl">Your hair, my passion.</h2>
+            <p className="leading-7">
+              Tell us the style you have in mind and your preferred date. We'll discuss availability
+              and any extra length or house-call charges with you.
+            </p>
+            <Button asChild variant="outline">
+              <a
+                target="_blank"
+                rel="noreferrer"
+                href="https://www.google.com/maps/search/?api=1&query=CPUT+Bellville+Campus+Cape+Town"
+              >
+                Open location in Maps <MapPin />
+              </a>
+            </Button>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </>
+  ),
+});
