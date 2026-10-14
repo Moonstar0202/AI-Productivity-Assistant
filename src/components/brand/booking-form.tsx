@@ -14,7 +14,7 @@ export function BookingForm({
   onSaved,
 }: {
   style?: string;
-  existing?: Database["public"]["Tables"]["appointments"]["Row"];
+  existing?: Database["public"]["Tables"]["appointments"]["Row"] | undefined;
   onSaved?: () => void;
 }) {
   const { data: services } = useQuery(servicesQuery);
@@ -72,7 +72,7 @@ export function BookingForm({
       }
       qc.invalidateQueries({ queryKey: ["appointments"] });
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Unable to save the request. Please try again.");
+      setError(e && typeof e === 'object' && 'message' in e ? String(e.message) : "Unable to save the request. Please try again.");
     } finally {
       setSaving(false);
     }

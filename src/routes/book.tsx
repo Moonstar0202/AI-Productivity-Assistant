@@ -3,7 +3,7 @@ import { PublicHeader, Footer } from "@/components/brand/public-shell";
 import { BookingForm } from "@/components/brand/booking-form";
 import { meta } from "@/lib/business";
 export const Route = createFileRoute("/book")({
-  validateSearch: (s: Record<string, unknown>) => ({
+  validateSearch: (s: Record<string, unknown>): { style?: string } => ({
     style: typeof s["style"] === "string" ? s["style"] : "",
   }),
   head: () =>
@@ -25,7 +25,7 @@ function Book() {
           <p className="text-sm text-muted-foreground mb-8">
             Choose your look and request a time. Appointments are confirmed personally after review.
           </p>
-          <BookingForm style={style} />
+          <BookingForm style={style ?? ''} />
         </div>
       </main>
       <Footer />

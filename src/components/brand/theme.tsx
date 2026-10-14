@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 export function ThemeToggle() {
   const [dark, setDark] = useState(false);
   useEffect(() => {
+    const update=()=>setDark(document.documentElement.classList.contains('dark'));
+    window.addEventListener('braiding-theme-change',update);
     try {
       const d = localStorage.getItem("braiding-theme") === "dark";
       setDark(d);
       document.documentElement.classList.toggle("dark", d);
     } catch {}
+    return ()=>window.removeEventListener('braiding-theme-change',update);
   }, []);
   return (
     <Button
@@ -20,6 +23,7 @@ export function ThemeToggle() {
         const d = !dark;
         setDark(d);
         document.documentElement.classList.toggle("dark", d);
+        window.dispatchEvent(new Event('braiding-theme-change'));
         try {
           localStorage.setItem("braiding-theme", d ? "dark" : "light");
         } catch {}
