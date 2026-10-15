@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { meta } from "@/lib/business";
 export const Route = createFileRoute("/reset-password")({
-  head: () => meta("Reset Password", "Set a new password for your Braiding By Me owner account."),
+  head: () => meta("Reset Password", "Set a new password for your braiding business owner account."),
   component: Reset,
 });
 function Reset() {

@@ -7,7 +7,7 @@ import { Brand } from "@/components/brand/public-shell";
 import { ThemeToggle } from "@/components/brand/theme";
 import { meta } from "@/lib/business";
 export const Route = createFileRoute("/auth")({
-  head: () => meta("Owner Sign In", "Secure access to the Braiding By Me business dashboard."),
+  head: () => meta("Owner Sign In", "Secure access to your braiding business dashboard."),
   component: Auth,
 });
 function Auth() {
