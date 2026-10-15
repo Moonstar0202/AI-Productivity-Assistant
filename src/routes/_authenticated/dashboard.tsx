@@ -5,7 +5,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
   head: () =>
     meta(
       "My Business Dashboard",
-      "Private appointments, tasks, services and productivity tools for Braiding By Me.",
+      "Private appointments, tasks, services and productivity tools for your braiding business.",
     ),
   component: Dashboard,
 });

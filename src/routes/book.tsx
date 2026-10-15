@@ -9,7 +9,7 @@ export const Route = createFileRoute("/book")({
   head: () =>
     meta(
       "Book an Appointment",
-      "Request your favourite braiding style and preferred date at Braiding By Me.",
+      "Request your favourite braiding style and preferred appointment date.",
     ),
   component: Book,
 });

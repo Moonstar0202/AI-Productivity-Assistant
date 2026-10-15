@@ -47,9 +47,9 @@ export function overdue(task: { due_date: string | null; status: string }) {
 export function meta(title: string, description: string) {
   return {
     meta: [
-      { title: `${title} | Braiding By Me` },
+      { title: `${title} | Braiding` },
       { name: "description", content: description },
-      { property: "og:title", content: `${title} | Braiding By Me` },
+      { property: "og:title", content: `${title} | Braiding` },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

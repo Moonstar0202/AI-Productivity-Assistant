@@ -1,15 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PublicHeader, Footer } from "@/components/brand/public-shell";
-import { meta, whatsapp } from "@/lib/business";
+import { meta } from "@/lib/business";
+import { useBusinessInformation, WhatsAppButton } from "@/components/brand/business-information";
+import { houseCallDescription } from "@/lib/business-settings";
 import { Button } from "@/components/ui/button";
 import { MapPin, MessageCircle, Phone, Home } from "lucide-react";
 export const Route = createFileRoute("/contact")({
   head: () =>
     meta(
       "Contact & Location",
-      "Contact Braiding By Me on 0747602949 at CPUT Bellville Campus, Cape Town.",
+      "Business contact information, location and appointment enquiries.",
     ),
-  component: () => (
+  component: Contact,
+});
+function Contact() {
+  const { details } = useBusinessInformation();
+  return (
     <>
       <PublicHeader />
       <main className="wrap section min-h-[65vh]">
@@ -19,46 +25,41 @@ export const Route = createFileRoute("/contact")({
           <div className="space-y-6">
             <p className="flex gap-3">
               <MapPin />
-              CPUT Bellville Campus, Cape Town
+              {details.location || "Location to be provided."}
             </p>
-            <a className="flex gap-3" href="tel:+27747602949">
+            {details.phone ? <a className="flex gap-3" href={`tel:${details.phone.replace(/[^+\d]/g, "")}`}>
               <Phone />
-              074 760 2949
-            </a>
+              {details.phone}
+            </a> : <p className="flex gap-3"><Phone />Phone number to be provided.</p>}
+            {details.owner_name && <p>Owner: {details.owner_name}</p>}
+            {details.email ? <a className="block break-words" href={`mailto:${details.email}`}>{details.email}</a> : <p>Email to be provided.</p>}
+            <p className="whitespace-pre-line">{details.business_hours || "Business hours to be provided."}</p>
+            <div className="flex gap-4">{details.instagram_url && <a href={details.instagram_url} target="_blank" rel="noreferrer">Instagram</a>}{details.facebook_url && <a href={details.facebook_url} target="_blank" rel="noreferrer">Facebook</a>}</div>
             <p className="flex gap-3">
               <Home />
-              House calls are available at an additional charge.
+              {houseCallDescription(details)}
             </p>
-            <Button asChild>
-              <a
-                target="_blank"
-                rel="noreferrer"
-                href={whatsapp("Hi! I have a question about your braiding services.")}
-              >
-                <MessageCircle />
-                Chat on WhatsApp
-              </a>
-            </Button>
+            <WhatsAppButton message={`Hi ${details.business_name || "there"}! I have a question about your braiding services.`}>Chat on WhatsApp</WhatsAppButton>
           </div>
           <div className="bg-secondary p-8 rounded-lg">
             <h2 className="script text-4xl">Your hair, my passion.</h2>
             <p className="leading-7">
               Tell us the style you have in mind and your preferred date. We'll discuss availability
-              and any extra length or house-call charges with you.
+              and any additional charges with you.
             </p>
-            <Button asChild variant="outline">
+            {details.location ? <Button asChild variant="outline">
               <a
                 target="_blank"
                 rel="noreferrer"
-                href="https://www.google.com/maps/search/?api=1&query=CPUT+Bellville+Campus+Cape+Town"
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(details.location)}`}
               >
                 Open location in Maps <MapPin />
               </a>
-            </Button>
+            </Button> : <Button disabled variant="outline">Location unavailable <MapPin /></Button>}
           </div>
         </div>
       </main>
       <Footer />
     </>
-  ),
-});
+  );
+}

@@ -80,9 +80,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Braiding By Me" },
+      { title: "Braiding appointments" },
       { name: "description", content: "Clean, neat, stylish braids." },
-      { property: "og:title", content: "Braiding By Me" },
+      { property: "og:title", content: "Braiding appointments" },
       { property: "og:description", content: "Clean, neat, stylish braids." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
