@@ -38,9 +38,6 @@ export const bookingSchema = z.object({
   notes: z.string().max(2000),
   house_call: z.boolean(),
 });
-export function whatsapp(text: string) {
-  return `https://wa.me/27747602949?text=${encodeURIComponent(text.slice(0, 4000))}`;
-}
 export function today() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Africa/Johannesburg" });
 }
