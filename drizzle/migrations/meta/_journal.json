@@ -8,6 +8,13 @@
       "when": 1791982684486,
       "tag": "0000_braiding_business",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792048693996,
+      "tag": "0001_editable_business_information",
+      "breakpoints": true
     }
   ]
 }
