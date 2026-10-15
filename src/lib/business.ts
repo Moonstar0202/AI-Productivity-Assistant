@@ -38,9 +38,6 @@ export const bookingSchema = z.object({
   notes: z.string().max(2000),
   house_call: z.boolean(),
 });
-export function whatsapp(text: string) {
-  return `https://wa.me/27747602949?text=${encodeURIComponent(text.slice(0, 4000))}`;
-}
 export function today() {
   return new Date().toLocaleDateString("en-CA", { timeZone: "Africa/Johannesburg" });
 }
@@ -50,9 +47,9 @@ export function overdue(task: { due_date: string | null; status: string }) {
 export function meta(title: string, description: string) {
   return {
     meta: [
-      { title: `${title} | Braiding By Me` },
+      { title: `${title} | Braiding` },
       { name: "description", content: description },
-      { property: "og:title", content: `${title} | Braiding By Me` },
+      { property: "og:title", content: `${title} | Braiding` },
       { property: "og:description", content: description },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

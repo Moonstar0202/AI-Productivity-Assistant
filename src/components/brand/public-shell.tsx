@@ -3,23 +3,26 @@ import { Crown, Menu, Heart, MessageCircle, MapPin, ArrowUpRight } from "lucide-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./theme";
-import { whatsapp } from "@/lib/business";
+import { useBusinessInformation, WhatsAppButton } from "./business-information";
+import { houseCallDescription } from "@/lib/business-settings";
 export function Brand() {
+  const { name } = useBusinessInformation();
   return (
     <span className="flex items-center gap-2">
       <Crown className="size-6 text-rose" />
       <span className="script text-3xl">
-        Braiding By Me<span className="text-rose"> ♡</span>
+        {name}<span className="text-rose"> ♡</span>
       </span>
     </span>
   );
 }
 export function PublicHeader() {
+  const { name } = useBusinessInformation();
   const [open, setOpen] = useState(false);
   return (
     <header className="border-b bg-background">
       <div className="wrap flex h-22 items-center justify-between gap-3">
-        <Link to="/" aria-label="Braiding By Me home">
+        <Link to="/" aria-label={`${name} home`}>
           <Brand />
         </Link>
         <nav className="desktop-nav flex items-center gap-8 text-sm">
@@ -67,6 +70,7 @@ export function PublicHeader() {
   );
 }
 export function Footer() {
+  const { details, name } = useBusinessInformation();
   return (
     <footer className="border-t bg-muted py-10">
       <div className="wrap grid gap-8 md:grid-cols-3">
@@ -85,23 +89,21 @@ export function Footer() {
           <Link to="/contact">Contact</Link>
         </div>
         <div className="text-sm space-y-3">
-          <a
-            className="flex items-center gap-2"
-            href={whatsapp("Hi! I would like to enquire about braiding.")}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <MessageCircle className="size-4" />
-            074 760 2949
-          </a>
+          <WhatsAppButton message={`Hi ${details.business_name || "there"}! I would like to enquire about braiding.`} variant="outline">{details.whatsapp_number || "Chat on WhatsApp"}</WhatsAppButton>
+          {details.phone ? <a className="block" href={`tel:${details.phone.replace(/[^+\d]/g, "")}`}>{details.phone}</a> : <p>Phone number to be provided.</p>}
+          {details.email && <a className="block break-words" href={`mailto:${details.email}`}>{details.email}</a>}
+          {details.owner_name && <p>{details.owner_name}</p>}
           <p className="flex gap-2">
             <MapPin className="size-4" />
-            CPUT Bellville Campus, Cape Town
+            {details.location || "Location to be provided."}
           </p>
+          <p>{houseCallDescription(details)}</p>
+          {details.business_hours && <p className="whitespace-pre-line">{details.business_hours}</p>}
+          <div className="flex gap-4">{details.instagram_url && <a href={details.instagram_url} target="_blank" rel="noreferrer">Instagram</a>}{details.facebook_url && <a href={details.facebook_url} target="_blank" rel="noreferrer">Facebook</a>}</div>
         </div>
       </div>
       <div className="wrap mt-8 border-t pt-5 text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Braiding By Me. Made with care.{" "}
+        © {new Date().getFullYear()} {name}. Made with care.{" "}
         <Link to="/dashboard" className="float-right">
           Owner dashboard
         </Link>

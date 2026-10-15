@@ -2,7 +2,9 @@ import type { Database } from "@/integrations/supabase/types";
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { bookingSchema, whatsapp } from "@/lib/business";
+import { bookingSchema } from "@/lib/business";
+import { useBusinessInformation, WhatsAppButton } from "./business-information";
+import { houseCallDescription } from "@/lib/business-settings";
 import { servicesQuery } from "./services";
 import { DatePicker } from "./date-picker";
 import { Button } from "@/components/ui/button";
@@ -17,6 +19,7 @@ export function BookingForm({
   existing?: Database["public"]["Tables"]["appointments"]["Row"] | undefined;
   onSaved?: () => void;
 }) {
+  const { details } = useBusinessInformation();
   const { data: services } = useQuery(servicesQuery);
   const qc = useQueryClient();
   const [form, setForm] = useState({
@@ -34,7 +37,7 @@ export function BookingForm({
   const [id, setId] = useState("");
   const [error, setError] = useState("");
   const set = (k: string, v: any) => setForm((f) => ({ ...f, [k]: v }));
-  const message = `Hi Braiding By Me! I'd like ${services?.find((s) => s.id === form.service_id)?.name || "a braiding appointment"} on ${form.appointment_date || "[date]"} at ${form.appointment_time || "[time]"}. Hair length: ${form.hair_length}. ${form.house_call ? "House call requested." : ""} ${id ? "Request reference: " + id.slice(0, 8) : ""}`;
+  const message = `Hi ${details.business_name || "there"}! I'd like ${services?.find((s) => s.id === form.service_id)?.name || "a braiding appointment"} on ${form.appointment_date || "[date]"} at ${form.appointment_time || "[time]"}. Hair length: ${form.hair_length}. ${form.house_call ? "House call requested." : ""} ${id ? "Request reference: " + id.slice(0, 8) : ""}`;
   async function save(e: React.FormEvent) {
     e.preventDefault();
     const parsed = bookingSchema.safeParse(form);
@@ -88,12 +91,7 @@ export function BookingForm({
           We'll discuss availability and any additional charges with you.
         </p>
         <p className="text-xs text-muted-foreground">Reference: {id.slice(0, 8)}</p>
-        <Button asChild>
-          <a href={whatsapp(message)} target="_blank" rel="noreferrer">
-            <MessageCircle />
-            Follow up on WhatsApp
-          </a>
-        </Button>
+        <WhatsAppButton message={message}>Follow up on WhatsApp</WhatsAppButton>
       </div>
     );
   return (
@@ -113,7 +111,7 @@ export function BookingForm({
           <input
             required
             type="tel"
-            placeholder="0747602949"
+            placeholder="Your contact number"
             maxLength={16}
             value={form.phone}
             onChange={(e) => set("phone", e.target.value)}
@@ -168,7 +166,7 @@ export function BookingForm({
           checked={form.house_call}
           onChange={(e) => set("house_call", e.target.checked)}
         />
-        House call (additional charge)
+        House call request — {houseCallDescription(details)}
       </label>
       <label className="field">
         Additional requirements
@@ -198,12 +196,7 @@ export function BookingForm({
       <Button disabled={saving} type="submit" className="w-full">
         {saving ? "Saving…" : existing ? "Save Appointment" : "Save Booking Request"}
       </Button>
-      <Button asChild variant="outline" className="w-full">
-        <a target="_blank" rel="noreferrer" href={whatsapp(message)}>
-          <MessageCircle />
-          Request via WhatsApp instead
-        </a>
-      </Button>
+      <WhatsAppButton message={message} variant="outline" className="w-full">Request via WhatsApp instead</WhatsAppButton>
     </form>
   );
 }

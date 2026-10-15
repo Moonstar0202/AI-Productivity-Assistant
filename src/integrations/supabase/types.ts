@@ -67,6 +67,51 @@ export type Database = {
           },
         ]
       }
+      business_settings: {
+        Row: {
+          business_hours: string
+          business_name: string
+          email: string
+          facebook_url: string
+          house_call_fee: string
+          house_calls: boolean | null
+          id: boolean
+          instagram_url: string
+          location: string
+          owner_name: string
+          phone: string
+          whatsapp_number: string
+        }
+        Insert: {
+          business_hours?: string
+          business_name?: string
+          email?: string
+          facebook_url?: string
+          house_call_fee?: string
+          house_calls?: boolean | null
+          id?: boolean
+          instagram_url?: string
+          location?: string
+          owner_name?: string
+          phone?: string
+          whatsapp_number?: string
+        }
+        Update: {
+          business_hours?: string
+          business_name?: string
+          email?: string
+          facebook_url?: string
+          house_call_fee?: string
+          house_calls?: boolean | null
+          id?: boolean
+          instagram_url?: string
+          location?: string
+          owner_name?: string
+          phone?: string
+          whatsapp_number?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           active: boolean

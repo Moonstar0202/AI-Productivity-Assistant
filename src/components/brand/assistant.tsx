@@ -5,7 +5,9 @@ import { Button } from "@/components/ui/button";
 import { CalendarCheck, MessageCircle, NotebookPen, Copy, Check, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
+import { useBusinessInformation } from "./business-information";
 export function Assistant() {
+  const { details } = useBusinessInformation();
   const [mode, setMode] = useState("plan");
   const [text, setText] = useState("");
   const [output, setOutput] = useState("");
@@ -34,7 +36,7 @@ export function Assistant() {
       );
     } else if (mode === "message") {
       setOutput(
-        `${tone === "Friendly" ? "Hey there! ♡" : tone === "Professional" ? "Hello," : "Hi lovely!"}\n\n${kind === "Confirmation" ? "Please review the appointment details below before confirming." : kind === "Reminder" ? "A gentle reminder about your braiding appointment." : kind === "Reschedule" ? "Could we arrange a new time for your appointment?" : kind === "Cancellation" ? "I’m sorry that we need to cancel this appointment." : "Just checking in about your braiding request."}\n\n${text || "[Add the agreed service, date and time here]"}\n\n${tone === "Professional" ? "Kind regards," : "With care, ♡"}\nBraiding By Me`,
+        `${tone === "Friendly" ? "Hey there! ♡" : tone === "Professional" ? "Hello," : "Hi lovely!"}\n\n${kind === "Confirmation" ? "Please review the appointment details below before confirming." : kind === "Reminder" ? "A gentle reminder about your braiding appointment." : kind === "Reschedule" ? "Could we arrange a new time for your appointment?" : kind === "Cancellation" ? "I’m sorry that we need to cancel this appointment." : "Just checking in about your braiding request."}\n\n${text || "[Add the agreed service, date and time here]"}\n\n${tone === "Professional" ? "Kind regards," : "With care, ♡"}${details.business_name ? "\n" + details.business_name : ""}`,
       );
     } else {
       const lines = text

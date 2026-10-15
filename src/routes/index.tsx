@@ -4,16 +4,19 @@ import hero from "@/assets/braids-hero.jpg";
 import { PublicHeader, Footer } from "@/components/brand/public-shell";
 import { ServiceCards } from "@/components/brand/services";
 import { Button } from "@/components/ui/button";
-import { meta, whatsapp } from "@/lib/business";
+import { meta } from "@/lib/business";
+import { useBusinessInformation, WhatsAppButton } from "@/components/brand/business-information";
+import { houseCallDescription } from "@/lib/business-settings";
 export const Route = createFileRoute("/")({
   head: () =>
     meta(
       "Beautiful braids, made for you",
-      "Knotless braids, twists and goddess braids at CPUT Bellville Campus. View prices and request your appointment.",
+      "Knotless braids, twists and goddess braids. View prices and request your appointment.",
     ),
   component: Home,
 });
 function Home() {
+  const { details, name } = useBusinessInformation();
   return (
     <>
       <PublicHeader />
@@ -31,7 +34,7 @@ function Home() {
                 <span className="h-px w-7 bg-rose" /> A little self-care. A lot of confidence.
               </div>
               <h1>
-                Braiding<span>By Me ♡</span>
+                 {name}<span>♡</span>
               </h1>
               <div className="eyebrow mb-5">Clean • Neat • Stylish</div>
               <p>
@@ -50,7 +53,7 @@ function Home() {
               </div>
               <div className="mt-7 text-xs flex items-center gap-2">
                 <MapPin className="size-4" />
-                CPUT Bellville Campus, Cape Town
+                {details.location || "Location to be provided."}
               </div>
             </div>
           </div>
@@ -106,7 +109,7 @@ function Home() {
               <div className="eyebrow text-rose mb-3">More than a hairstyle</div>
               <h2 className="script section-title">Good hair. Good mood.</h2>
               <p className="text-sm leading-7 max-w-md">
-                Welcome to Braiding By Me — a little space for beautiful hair and a fresh dose of
+                Welcome{details.business_name ? ` to ${details.business_name}` : ""} — a little space for beautiful hair and a fresh dose of
                 confidence. From classic knotless braids to soft goddess curls, every style is made
                 with care and attention to detail.
               </p>
@@ -114,20 +117,11 @@ function Home() {
             <div className="md:pl-14">
               <h3 className="script text-4xl mb-3">Let's make it a good hair day ♡</h3>
               <p className="text-sm text-muted-foreground">
-                Based at CPUT Bellville Campus, Cape Town.
+                {details.location || "Location to be provided."}
                 <br />
-                House calls available at an additional charge.
+                {houseCallDescription(details)}
               </p>
-              <Button asChild>
-                <a
-                  href={whatsapp("Hi! I would love to book a braiding appointment.")}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <MessageCircle />
-                  Let's chat on WhatsApp
-                </a>
-              </Button>
+              <WhatsAppButton message={`Hi ${details.business_name || "there"}! I would love to book a braiding appointment.`}>Let's chat on WhatsApp</WhatsAppButton>
             </div>
           </div>
         </section>

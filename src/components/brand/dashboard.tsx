@@ -25,6 +25,7 @@ import { Appointments, appointmentsQuery } from "./appointments";
 import { AdminServices } from "./admin-services";
 import { Assistant } from "./assistant";
 import { today } from "@/lib/business";
+import { BusinessInformationEditor, useBusinessInformation } from "./business-information";
 const items = [
   ["overview", "Overview", LayoutDashboard],
   ["appointments", "Appointments", CalendarDays],
@@ -35,6 +36,7 @@ const items = [
   ["settings", "Settings", Settings],
 ] as const;
 export function Dashboard() {
+  const { details } = useBusinessInformation();
   const [tab, setTab] = useState("overview");
   const [collapsed, setCollapsed] = useState(false);
   const [add, setAdd] = useState(false);
@@ -128,7 +130,7 @@ export function Dashboard() {
           <div className="flex items-center gap-3">
             <ThemeToggle />
             <span className="flex items-center justify-center size-9 rounded-full bg-secondary text-primary text-sm font-semibold">
-              BM
+              {details.business_name ? details.business_name.split(/\s+/).map((word) => word[0]).slice(0, 2).join("") : <Heart className="size-4" />}
             </span>
           </div>
         </header>
@@ -137,7 +139,7 @@ export function Dashboard() {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
               <div>
                 <div className="eyebrow text-rose mb-3">A beautiful day to build your business</div>
-                <h1 className="script text-5xl mb-2">Hello, beautiful ♡</h1>
+                <h1 className="script text-5xl mb-2">Hello, {details.owner_name || "beautiful"} ♡</h1>
                 <p className="text-sm text-muted-foreground">
                   {new Date().toLocaleDateString("en-ZA", {
                     weekday: "long",
@@ -232,18 +234,7 @@ function SettingsView() {
         </div>
         <ThemeToggle />
       </div>
-      <div className="py-6 border-b">
-        <h3 className="text-sm font-semibold">Business information</h3>
-        <p className="text-sm leading-7">
-          Braiding By Me
-          <br />
-          CPUT Bellville Campus, Cape Town
-          <br />
-          074 760 2949
-          <br />
-          House calls and extra lengths may cost extra.
-        </p>
-      </div>
+      <BusinessInformationEditor />
       <form
         className="space-y-4 mt-6"
         onSubmit={async (e) => {

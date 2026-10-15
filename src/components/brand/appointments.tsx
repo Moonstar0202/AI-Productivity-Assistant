@@ -8,7 +8,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { BookingForm } from "./booking-form";
 import { Plus, Pencil, CalendarDays, MessageCircle, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { today, whatsapp } from "@/lib/business";
+import { today } from "@/lib/business";
 import type { Database } from "@/integrations/supabase/types";
 import { format } from "date-fns";
 type Appointment = Database["public"]["Tables"]["appointments"]["Row"];
